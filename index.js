@@ -16,7 +16,7 @@ app.get('/', function(request, response) {
 });
 
 app.get('/cool', function(request, response) {
-  response.send(cool());
+  response.send(cool() + " ------- " + cool());
 });
 
 app.get('/times', function(request, response) {

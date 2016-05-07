@@ -27,6 +27,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "bower": "^1.7.9",
     "gulp": "^3.9.1",
     "mocha": "^2.4.5"
   }

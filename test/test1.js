@@ -7,7 +7,7 @@ describe('Alguns testes de exemplo', function(){
     });
 
     it('2 * 2 deve ser igual a 8 (nota 0 em matemática)', function(){
-        assert.equal(8, 2 * 2);
+        assert.equal(4, 2 * 2);
     });
 
 });

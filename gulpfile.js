@@ -34,7 +34,7 @@ gulp.task('uglify', function() {
 });
 
 gulp.task('htmlmin', function() {
-  return gulp.src('src/index.html')
+  return gulp.src('src/html/index.html')
   .pipe(htmlmin({collapseWhitespace: true}))
   .pipe(gulp.dest('public/'))
 });

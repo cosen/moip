@@ -5,6 +5,7 @@ before_script:
 - bower install
 - gulp
 deploy:
+  skip_cleanup: false
   app: still-refuge-85888
   provider: heroku
   api_key:

@@ -6,9 +6,7 @@ node_js:
 before_install:
 - mysql -e "drop database if exists j2w1xpr3s01xy8ob;" -u root
 - mysql -e "create database j2w1xpr3s01xy8ob;" -u root
-- ls
-- pwd
-- mysql < src/api/db.sql
+- mysql < src/api/db.sql -u root
 
 before_script:
 - bower install
@@ -16,6 +14,12 @@ before_script:
 
 services:
 - mysql
+
+env:
+- DB_MYSQL_HOST=localhost
+- DB_MYSQL_USER=root 
+- DB_MYSQL_PASSWORD=
+- DB_MYSQL_DATABASE=j2w1xpr3s01xy8ob
 
 deploy:
   skip_cleanup: true

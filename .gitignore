@@ -1,13 +1,12 @@
-# Node build artifacts
+# Node
 node_modules
+
+# Bower
 lib
-npm-debug.log
 
 # Local development
 *.env
 *.dev
-.DS_Store
 
-# Docker
-Dockerfile
-docker-compose.yml
+# Gulp
+public

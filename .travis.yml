@@ -1,9 +1,18 @@
 language: node_js
+
 node_js:
 - 5.9.1
+
+before_install:
+- mysql -e "create database if not exists j2w1xpr3s01xy8ob;" -u root
+
 before_script:
 - bower install
 - gulp
+
+services:
+- mysql
+
 deploy:
   skip_cleanup: true
   app: still-refuge-85888

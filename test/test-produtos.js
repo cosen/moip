@@ -21,4 +21,29 @@ describe('Produtos', function() {
       done();
     });
   });
+
+  it('Executar o findById() com o id de um produto existente deve devolver esse produto', function(done) {
+	produtos.findById(1, function(error, results) {
+      assert.equal("Bola", results[0].nome);
+      assert.equal("Uma bola de futebol", results[0].descricao);
+      assert.equal("10.75", results[0].preco);
+      done();
+    });
+  });
+
+  it('Executar o findById() com o id de um produto inexistente deve devolver results vazio', function(done) {
+	produtos.findById(2, function(error, results) {
+      assert.equal(0, results.length);
+      done();
+    });
+  });
+
+  it('Executar o delete() com o id de um produto existente deve remover esse produto do banco', function(done) {
+	produtos.delete(1, function(error, results) {
+      produtos.findById(1, function(error, results) {
+        assert.equal(0, results.length);
+        done();
+      });
+    });
+  });
 });

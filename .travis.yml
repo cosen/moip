@@ -6,6 +6,8 @@ node_js:
 before_install:
 - mysql -e "drop database if exists j2w1xpr3s01xy8ob;" -u root
 - mysql -e "create database j2w1xpr3s01xy8ob;" -u root
+- ls
+- pwd
 - mysql < src/api/db.sql
 
 before_script:

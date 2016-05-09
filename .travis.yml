@@ -4,7 +4,9 @@ node_js:
 - 5.9.1
 
 before_install:
-- mysql -e "create database if not exists j2w1xpr3s01xy8ob;" -u root
+- mysql -e "drop database if exists j2w1xpr3s01xy8ob;" -u root
+- mysql -e "create database j2w1xpr3s01xy8ob;" -u root
+- mysql < ./src/api/db.sql
 
 before_script:
 - bower install

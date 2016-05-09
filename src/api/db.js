@@ -5,7 +5,7 @@ var pool = mysql.createPool({
   host: (process.env.DB_MYSQL_HOST || 'localhost'),
   user: (process.env.DB_MYSQL_USER || 'root'),
   password: (process.env.DB_MYSQL_NO_PASSWORD ? '' : (process.env.DB_MYSQL_PASSWORD || 'root')),
-  database: (process.env.DB_MYSQL_DATABASE || 'j2w1xpr3s01xy8ob'),
+  database: 'j2w1xpr3s01xy8ob',
   debug: false
 });
 

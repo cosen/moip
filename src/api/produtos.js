@@ -6,3 +6,14 @@ module.exports.findAll = function(callback) {
     callback(error, results);
   });
 }
+
+module.exports.add = function(produto, callback) {
+  var query = {
+    sql: "insert into produtos set ?",
+    values: produto
+  };
+
+  db.executeQuery(query, function(error, results, fields) {
+    callback(error, results);
+  });
+}

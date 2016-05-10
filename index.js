@@ -30,7 +30,7 @@ app.get('/produtos/:id', function(req, res) {
     } else if(results.length == 0) {
       res.status(404).send("Produto Inexistente");
     } else {
-      res.json(results);
+      res.json(results[0]);
     }
   });
 });

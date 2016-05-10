@@ -5,7 +5,6 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var htmlmin = require('gulp-htmlmin');
 var cleanCSS = require('gulp-clean-css');
-var es = require('event-stream');
 var runSequence = require('run-sequence');
 
 gulp.task('clean', function() {
@@ -18,45 +17,51 @@ gulp.task('jshint', function() {
   .pipe(jshint.reporter('default'));
 });
 
-gulp.task('uglify', function() {
-  return es.merge([
-    gulp.src([
-      'lib/angular/angular.min.js', 
-      'lib/angular-route/angular-route.min.js', 
-      'lib/angular-messages/angular-messages.min.js'
-    ]), 
-    gulp.src(['src/js/*.js'])
-    .pipe(concat('scripts.js'))
-    .pipe(uglify())
+gulp.task('jslibs', function() {
+  return gulp.src([
+    'lib/angular/angular.min.js', 
+    'lib/angular-route/angular-route.min.js', 
+    'lib/angular-messages/angular-messages.min.js'
   ])
-  .pipe(concat('all.min.js'))
+  .pipe(gulp.dest("public/js"));
+});
+
+gulp.task('uglify', function() {
+  return gulp.src(['src/js/*.js'])
+  .pipe(concat('all-scripts.min.js'))
+  .pipe(uglify({compress: {sequences:false}, mangle: false}))
   .pipe(gulp.dest('public/js'));
 });
 
 gulp.task('htmlmin', function() {
+  return gulp.src(['src/html/*.html', '!src/html/index.html'])
+  .pipe(htmlmin({collapseWhitespace: true}))
+  .pipe(gulp.dest('public/html/'));
+});
+
+gulp.task('htmlmin-index', function() {
   return gulp.src('src/html/index.html')
   .pipe(htmlmin({collapseWhitespace: true}))
-  .pipe(gulp.dest('public/'))
+  .pipe(gulp.dest('public/'));
+});
+
+gulp.task('csslibs', function() {
+  return gulp.src([
+    'lib/bootstrap/dist/css/bootstrap.min.css'  
+  ])
+  .pipe(gulp.dest("public/css"));
 });
 
 gulp.task('cssmin', function() {
-  return es.merge([
-    gulp.src([
-      'lib/bootstrap/dist/css/bootstrap.min.css' 
-    ]), 
-    gulp.src(['src/css/*.css'])
-    .pipe(concat('style.css'))
-    .pipe(cleanCSS())
-  ])
-  .pipe(concat('all.min.css'))
-  .pipe(gulp.dest('public/css'));
+  return gulp.src(['src/css/*.css'])
+  .pipe(concat('all-style.min.css'))
+  .pipe(cleanCSS())
+  .pipe(gulp.dest('public/css'))
 });
 
 gulp.task('default', function(end) {
   return runSequence(
     'clean', 
-    ['jshint', 'uglify', 'htmlmin', 'cssmin'],
+    ['jshint', 'jslibs', 'uglify', 'htmlmin', 'htmlmin-index', 'csslibs', 'cssmin'],
     end);
 });
-
-

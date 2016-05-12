@@ -90,7 +90,7 @@ angular.module('stillRefuge').controller("pedidosCtrl", function($scope, $http, 
       total += parseInt(produtos[i].preco * fator * 100) * produtos[i].quantidade;
     }
 
-    return total / 100 + 1000;
+    return total / 100 + 10;
   };
 
 
@@ -142,6 +142,8 @@ angular.module('stillRefuge').controller("pedidosCtrl", function($scope, $http, 
     $http.post("/checkout", novoCheckout).success(function(data, status) {
       var host = location.origin.replace(/^http/, 'ws');
       var ws = new WebSocket(host + "?pagamentoId=" + data.pagamentoId);
+     
+      console.log(host + "?pagamentoId=" + data.pagamentoId);
 
       ws.onmessage = function (event) {
         console.log(event.data);

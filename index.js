@@ -48,6 +48,8 @@ app.post('/payments', function(req, res) {
   console.log(pagamentoId);
   console.log(req.body.event);
   console.log(req.body.event == "PAYMENT.AUTHORIZED");
+  console.log(sockets);
+  console.log(sockets[pagamentoId]);
 
   if(req.body.event == "PAYMENT.AUTHORIZED") {
     sockets[pagamentoId](true);
@@ -59,7 +61,7 @@ app.post('/payments', function(req, res) {
 });
 
 process.on('uncaughtException', function (err) {
-    console.log(err);
+  console.log(err);
 })
 
 var server = app.listen(app.get('port'), function() {
@@ -72,9 +74,15 @@ console.log("Websocket server created")
 wss.on("connection", function(ws) {
   var pagamentoId = ws.upgradeReq.url.split('=')[1];
 
+  console.log("websocket connection open: " + pagamentoId);
+  
+  console.log("SOCKETS: " + sockets);
+
   sockets[pagamentoId] = function(autorizado) {
     ws.send(autorizado, function() {  });
   };
+
+  console.log("SOCKETS: " + sockets);
 
   ws.on("close", function() {
     console.log("websocket connection close");

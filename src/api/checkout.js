@@ -141,15 +141,3 @@ module.exports.addCheckout = function(checkout, callback) {
     });
   });
 };
-
-
-
-
-
-
-
-
-
-
-
-

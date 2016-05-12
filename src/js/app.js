@@ -73,6 +73,27 @@ angular.module('stillRefuge').controller("pedidosCtrl", function($scope, $http, 
   $scope.pagamento.cartao.holder.taxDocument.number = "32000035884";
   // TESTE - FIM
 
+  $scope.total = function(produtos, pagamento) {
+    var fator = 1;
+
+    if(pagamento.installmentCount > 1) {
+      fator += 0.025;
+    }
+
+    if(pagamento.cupom && pagamento.cupom.startsWith("A")) {
+      fator -= 0.05;
+    }
+
+    var total = 0;
+
+    for(var i = 0; i < produtos.length; i++) {
+      total += parseInt(produtos[i].preco * fator * 100) * produtos[i].quantidade;
+    }
+
+    return total / 100;
+  };
+
+
   $scope.checkout = function(produtos, pagamento) {
     var novoCheckout = {};
 

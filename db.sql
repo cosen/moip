@@ -24,6 +24,7 @@ CREATE TABLE `itens` (
   `produto_id` bigint(20) DEFAULT NULL,
   `pedido_id` bigint(20) DEFAULT NULL,
   `quantidade` int(11) DEFAULT NULL,
+  `unitario` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_itens_1_idx` (`produto_id`),
   KEY `fk_itens_2_idx` (`pedido_id`),

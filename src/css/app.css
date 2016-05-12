@@ -26,3 +26,15 @@
 .quantidade {
   width: 70px;
 }
+
+.total {
+  background: red;
+  color: white;
+  width: 600px;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  left: calc(50% - 300px);
+  top: 0px;
+  font-weight: bold;
+}

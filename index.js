@@ -4,8 +4,12 @@ var app        = express();
 
 var WebSocketServer = require("ws").Server
 
+var util = require('util');
+
 var produtos = require('./src/api/produtos.js');
 var checkout = require('./src/api/checkout.js');
+
+var sockets = [];
 
 // express e body-parser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -38,7 +42,15 @@ app.post('/checkout', function(req, res) {
 });
 
 app.post('/payments', function(req, res) {
-  console.log(req.body);
+  console.log(util.inspect(req.body, {showHidden: false, depth: null}));
+  var pagamentoId = req.body.resource.payment.id;
+  
+  if(req.body.event == "PAYMENT.AUTHORIZED") {
+    sockets[pagamentoId](true);
+  } else if(req.body.event == "PAYMENT.CANCELLED") {
+    sockets[pagamentoId](false);
+  }
+
   res.send("");
 });
 
@@ -56,13 +68,12 @@ console.log("Websocket server created")
 wss.on("connection", function(ws) {
   var pagamentoId = ws.upgradeReq.url.split('=')[1];
 
-  var interval = setInterval(function() {
-    ws.send(pagamentoId, function() {  });
-  }, 1000);
+  sockets[pagamentoId] = function(autorizado) {
+    ws.send(autorizado, function() {  });
+  };
 
   ws.on("close", function() {
     console.log("websocket connection close");
-    clearInterval(interval);
   })
 })
 

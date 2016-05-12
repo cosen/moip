@@ -57,15 +57,24 @@ module.exports.addCheckout = function(checkout, callback) {
     checkout.order.ownId = pedidoId;
     console.log("Pedido inserido com id: " + pedidoId);
  
+    var fator = 1;
+    if(checkout.payment.installmentCount > 1) {
+      fator += 0.025;
+    }
+
+    if(checkout.payment.cupom && checkout.payment.cupom.startsWith("A")) {
+      fator -= 0.05;
+    } 
+
     var values = [];
     for(var i = 0; i < checkout.order.items.length; i++) {
       var produto = checkout.order.items[i];
-      produto.price = parseInt(produto.price * 100);
-      values.push([produto.id, pedidoId, produto.quantity]);
+      produto.price = parseInt(produto.price * 100 * fator);
+      values.push([produto.id, pedidoId, produto.quantity, produto.price]);
     }
 
     query = {
-      sql: "insert into itens (produto_id, pedido_id, quantidade) values ?",
+      sql: "insert into itens (produto_id, pedido_id, quantidade, unitario) values ?",
       values: [values]
     };
 

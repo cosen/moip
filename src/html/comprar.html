@@ -1,4 +1,6 @@
 <div class="jumbotron">
+  <div class="total">Total: {{total(produtos, pagamento) | currency:"R$":2}}</div>
+
   <h3>Produtos</h3>
   <table class="table table-striped">
     <tr>
@@ -101,6 +103,7 @@
     <option value="9">9 vezes</option>
     <option value="10">10 vezes</option>
   </select>
+
 
   <a class="btn btn-primary btn-block" ng-click="checkout(produtos, pagamento)">comprar</a>
 </div>

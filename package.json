@@ -16,7 +16,9 @@
     "ejs": "2.4.1",
     "express": "4.13.3",
     "gulp-jshint": "^2.0.1",
-    "mysql": "^2.10.2"
+    "http": "0.0.0",
+    "mysql": "^2.10.2",
+    "ws": "^1.1.0"
   },
   "repository": {
     "type": "git",

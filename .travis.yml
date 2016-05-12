@@ -10,7 +10,7 @@ env:
     - DB_MYSQL_NO_PASSWORD=true
 
 before_install:
-  - mysql < src/api/db.sql -u root
+  - mysql < db.sql -u root
 
 before_script:
   - bower install

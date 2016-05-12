@@ -1,0 +1,106 @@
+<div class="jumbotron">
+  <h3>Produtos</h3>
+  <table class="table table-striped">
+    <tr>
+      <th>Qtd</th>
+      <th>Nome</th>
+      <th>Descrição</th>
+      <th>Preço</th>
+    </tr>
+    <tr ng-repeat="produto in produtos">
+      <td>
+        <input 
+          type="number" 
+          ng-model="produto.quantidade" 
+          value="1" 
+          class="form-control quantidade"
+          min="1">
+      </td>
+      <td>{{produto.nome}}</td>
+      <td>{{produto.descricao}}</td>
+      <td>{{produto.preco}}</td>
+    </tr>
+  </table>
+
+  <hr/>
+
+  <label for="credit-card-number">Credit cart number</label>
+  <input 
+    class="form-control" 
+    ng-model="pagamento.cartao.number" 
+    type="text" 
+    placeholder="Credit card number" 
+    id="credit-card-number"/>
+
+  <label for="cvc">CVC</label>
+  <input 
+    class="form-control" 
+    ng-model="pagamento.cartao.cvc" 
+    type="text" 
+    placeholder="CVC" 
+    id="cvc"/>
+
+  <label for="month">Month</label>
+  <input 
+    class="form-control" 
+    ng-model="pagamento.cartao.month" 
+    type="text" 
+    placeholder="Month" 
+    id="month"/>
+
+  <label for="year">Year</label>
+  <input 
+    class="form-control" 
+    ng-model="pagamento.cartao.year" 
+    type="text" 
+    placeholder="Year" 
+    id="year"/>
+
+  <label for="fullname">Fullname</label>
+  <input 
+    class="form-control" 
+    ng-model="pagamento.cartao.holder.fullname" 
+    type="text" 
+    placeholder="Fullname" 
+    id="fullname"/>
+
+  <label for="birthdate">Birthdate</label>
+  <input 
+    class="form-control" 
+    ng-model="pagamento.cartao.holder.birthdate" 
+    type="text" 
+    placeholder="Birthdate" 
+    id="birthdate"/>
+
+  <label for="cpf">CPF</label>
+  <input 
+    class="form-control" 
+    ng-model="pagamento.cartao.holder.taxDocument.number" 
+    type="text" 
+    placeholder="CPF" 
+    id="cpf"/>
+
+  <label for="cupom">CUPOM</label>
+  <input 
+    class="form-control" 
+    ng-model="pagamento.cupom" 
+    type="text" 
+    placeholder="Dica: cupom iniciando com A são válidos" 
+    id="cupom"/>
+
+  <label for="parcelas">Parcelas</label>
+  <select class="form-control" ng-model="pagamento.installmentCount" id="parcelas">
+    <option value="1">1 vez</option>
+    <option value="2">2 vezes</option>
+    <option value="3">3 vezes</option>
+    <option value="4">4 vezes</option>
+    <option value="5">5 vezes</option>
+    <option value="6">6 vezes</option>
+    <option value="7">7 vezes</option>
+    <option value="8">8 vezes</option>
+    <option value="9">9 vezes</option>
+    <option value="10">10 vezes</option>
+  </select>
+
+  <a class="btn btn-primary btn-block" ng-click="checkout(produtos, pagamento)">comprar</a>
+</div>

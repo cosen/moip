@@ -2,7 +2,10 @@ var express    = require('express');
 var bodyParser = require('body-parser');
 var app        = express();
 
+var WebSocketServer = require("ws").Server
+
 var produtos = require('./src/api/produtos.js');
+var checkout = require('./src/api/checkout.js');
 
 // express e body-parser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -22,19 +25,39 @@ app.get('/produtos', function(req, res) {
   });
 });
 
-app.get('/produtos/:id', function(req, res) {
-  produtos.findById(req.params.id, function(error, results) {
+app.post('/checkout', function(req, res) {
+  var novoCheckout = req.body;
+  checkout.addCheckout(novoCheckout, function(error, pagamentoId) {
     if(error) {
       console.log(error);
       res.status(500).send('Algo errado!');
-    } else if(results.length == 0) {
-      res.status(404).send("Produto Inexistente");
     } else {
-      res.json(results[0]);
+      res.json({pagamentoId: pagamentoId});
     }
   });
 });
 
-app.listen(app.get('port'), function() {
+process.on('uncaughtException', function (err) {
+    console.log(err);
+})
+
+var server = app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
+
+var wss = new WebSocketServer({server: server});
+console.log("Websocket server created")
+
+wss.on("connection", function(ws) {
+  var pagamentoId = ws.upgradeReq.url.split('=')[1];
+
+  var interval = setInterval(function() {
+    ws.send(pagamentoId, function() {  });
+  }, 1000);
+
+  ws.on("close", function() {
+    console.log("websocket connection close");
+    clearInterval(interval);
+  })
+})
+

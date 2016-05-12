@@ -1,17 +1,24 @@
 <div class="jumbotron">
-  <h3>Lista de Produtos</h3>
+  <h3>Produtos</h3>
   <table class="table table-striped">
     <tr>
+      <th></th>
       <th>Nome</th>
       <th>Descrição</th>
       <th>Preço</th>
-      <th></th>
     </tr>
-    <tr ng-repeat="produto in produtos">
+    <tr ng-class="{selecionado: produto.selecionado}" ng-repeat="produto in produtos">
+      <td><input type="checkbox" ng-model="produto.selecionado"></td>
       <td>{{produto.nome}}</td>
       <td>{{produto.descricao}}</td>
       <td>{{produto.preco}}</td>
-      <td><a class="btn btn-primary btn-block" href="#/produtos/{{produto.id}}">comprar</a></td>
     </tr>
   </table>
+  <a 
+    href="#/comprar"
+    class="btn btn-primary btn-block" 
+    ng-click="comprarProdutos(produtos)" 
+    ng-disabled="!temProdutoSelecionado(produtos)">
+    Comprar produtos
+  </a>
 </div>

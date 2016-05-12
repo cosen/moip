@@ -13,3 +13,16 @@
 .table td {
   text-align: left;
 }
+
+.form-control {
+  margin-bottom: 4px;
+}
+
+.selecionado {
+  font-weight: bold;
+  color: green;
+}
+
+.quantidade {
+  width: 70px;
+}

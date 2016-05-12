@@ -10,6 +10,7 @@ var produtos = require('./src/api/produtos.js');
 var checkout = require('./src/api/checkout.js');
 
 var sockets = [];
+var wss = [];
 
 // express e body-parser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -51,6 +52,8 @@ app.post('/payments', function(req, res) {
   console.log(sockets);
   console.log(sockets[pagamentoId]);
 
+  wss[pagamentoId].send("qadasdasdas", function() {});
+
   if(req.body.event == "PAYMENT.AUTHORIZED") {
     sockets[pagamentoId](true);
   } else if(req.body.event == "PAYMENT.CANCELLED") {
@@ -79,8 +82,11 @@ wss.on("connection", function(ws) {
   console.log("SOCKETS: " + sockets);
 
   sockets[pagamentoId] = function(autorizado) {
+    console.log("Chamando send em " + pagamentoId);
     ws.send(autorizado, function() {  });
   };
+
+  wss[pagamentoId] = ws;
 
   console.log("SOCKETS: " + sockets);
 

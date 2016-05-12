@@ -60,6 +60,7 @@ module.exports.addCheckout = function(checkout, callback) {
     var values = [];
     for(var i = 0; i < checkout.order.items.length; i++) {
       var produto = checkout.order.items[i];
+      produto.price = parseInt(produto.price * 100);
       values.push([produto.id, pedidoId, produto.quantity]);
     }
 

@@ -45,6 +45,10 @@ app.post('/payments', function(req, res) {
   console.log(util.inspect(req.body, {showHidden: false, depth: null}));
   var pagamentoId = req.body.resource.payment.id;
   
+  console.log(pagamentoId);
+  console.log(req.body.event);
+  console.log(req.body.event == "PAYMENT.AUTHORIZED");
+
   if(req.body.event == "PAYMENT.AUTHORIZED") {
     sockets[pagamentoId](true);
   } else if(req.body.event == "PAYMENT.CANCELLED") {

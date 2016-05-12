@@ -90,7 +90,7 @@ angular.module('stillRefuge').controller("pedidosCtrl", function($scope, $http, 
       total += parseInt(produtos[i].preco * fator * 100) * produtos[i].quantidade;
     }
 
-    return total / 100;
+    return total / 100 + 1000;
   };
 
 

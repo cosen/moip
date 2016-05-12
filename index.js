@@ -37,6 +37,11 @@ app.post('/checkout', function(req, res) {
   });
 });
 
+app.post('/payments', function(req, res) {
+  console.log(req.body);
+  res.send("");
+});
+
 process.on('uncaughtException', function (err) {
     console.log(err);
 })

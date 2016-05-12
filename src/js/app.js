@@ -118,8 +118,6 @@ angular.module('stillRefuge').controller("pedidosCtrl", function($scope, $http, 
       cupom: pagamento.cupom
     };
 
-    console.log(novoCheckout);
-
     $http.post("/checkout", novoCheckout).success(function(data, status) {
       var host = location.origin.replace(/^http/, 'ws');
       var ws = new WebSocket(host + "?pagamentoId=" + data.pagamentoId);

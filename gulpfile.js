@@ -21,7 +21,8 @@ gulp.task('jslibs', function() {
   return gulp.src([
     'lib/angular/angular.min.js', 
     'lib/angular-route/angular-route.min.js', 
-    'lib/angular-messages/angular-messages.min.js'
+    'lib/angular-messages/angular-messages.min.js',
+    'lib/please-wait/build/please-wait.min.js'
   ])
   .pipe(gulp.dest("public/js"));
 });
@@ -47,7 +48,9 @@ gulp.task('htmlmin-index', function() {
 
 gulp.task('csslibs', function() {
   return gulp.src([
-    'lib/bootstrap/dist/css/bootstrap.min.css'  
+    'lib/bootstrap/dist/css/bootstrap.min.css',
+    'lib/please-wait/build/please-wait.css',
+    'lib/SpinKit/css/spinners/9-cube-grid.css'  
   ])
   .pipe(gulp.dest("public/css"));
 });
@@ -59,9 +62,14 @@ gulp.task('cssmin', function() {
   .pipe(gulp.dest('public/css'))
 });
 
+gulp.task('img', function() {
+  return gulp.src(['src/img/*'])
+  .pipe(gulp.dest("public/img"));
+});
+
 gulp.task('default', function(end) {
   return runSequence(
     'clean', 
-    ['jshint', 'jslibs', 'uglify', 'htmlmin', 'htmlmin-index', 'csslibs', 'cssmin'],
+    ['jshint', 'jslibs', 'uglify', 'htmlmin', 'htmlmin-index', 'csslibs', 'cssmin', 'img'],
     end);
 });

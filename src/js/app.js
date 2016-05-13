@@ -145,9 +145,24 @@ angular.module('stillRefuge').controller("pedidosCtrl", function($scope, $http, 
      
       console.log(host + "?pagamentoId=" + data.pagamentoId);
 
+      var loadingScreen = pleaseWait({
+        logo: "img/logo.png",
+        backgroundColor: '#f46d3b',
+        loadingHtml: '<div class="sk-cube-grid"><div class="sk-cube sk-cube1"></div><div class="sk-cube sk-cube2"></div><div class="sk-cube sk-cube3"></div><div class="sk-cube sk-cube4"></div><div class="sk-cube sk-cube5"></div><div class="sk-cube sk-cube6"></div><div class="sk-cube sk-cube7"></div><div class="sk-cube sk-cube8"></div><div class="sk-cube sk-cube9"></div></div>'
+      });
+
       ws.onmessage = function (event) {
-        console.log("Recebendo: ");
-        console.log(event.data);
+        if(event.data == "true") {
+          loadingScreen.finish();
+          ws.close();
+          console.log("Pagamento Autorizado");    
+        } else if(event.data == "false") {
+          loadingScreen.finish();
+          ws.close();
+          console.log("Pagamento não Autorizado");
+        } else {
+          console.log("ping");
+        }
       };
     });
   };

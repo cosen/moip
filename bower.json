@@ -23,6 +23,8 @@
     "angular": "1.5.5",
     "bootstrap": "^3.3.6",
     "angular-messages": "^1.5.5",
-    "angular-route": "^1.5.5"
+    "angular-route": "^1.5.5",
+    "please-wait": "^0.0.5",
+    "SpinKit": "spinkit#^1.2.5"
   }
 }

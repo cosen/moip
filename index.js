@@ -70,9 +70,13 @@ wss.on("connection", function(ws) {
   console.log("websocket connection open: " + pagamentoId);
   
   wss[pagamentoId] = ws;
-  console.log(wss[pagamentoId]);
+
+  var ping = setInterval(function() {
+    ws.send("ping", function() {  });
+  }, 2000);
 
   ws.on("close", function() {
     console.log("websocket connection close");
+    clearInterval(ping);
   });
 });

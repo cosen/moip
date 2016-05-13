@@ -1,6 +1,8 @@
 var db = require('./db.js');
 var moip = require('./moip.js');
 
+var wss = [];
+
 // UTILIZAREI MOEDA E FRETE FIXOS
 var amount = {
   currency: "BRL",
@@ -140,4 +142,31 @@ module.exports.addCheckout = function(checkout, callback) {
       });
     });
   });
+};
+
+module.exports.addWebsocket = function(ws) {
+  var pagamentoId = ws.upgradeReq.url.split('=')[1];
+
+  console.log("websocket connection open: " + pagamentoId);
+  
+  wss[pagamentoId] = ws;
+
+  var ping = setInterval(function() {
+    ws.send("ping", function() {  });
+  }, 2000);
+
+  ws.on("close", function() {
+    console.log("websocket connection close");
+    clearInterval(ping);
+  });
+};
+
+module.exports.addWebsocket = function(notification) {
+  var pagamentoId = notification.resource.payment.id;
+
+  if(req.body.event == "PAYMENT.AUTHORIZED") {
+    wss[pagamentoId].send("true", function() {});
+  } else if(req.body.event == "PAYMENT.CANCELLED") {
+    wss[pagamentoId].send("false", function() {});
+  }
 };

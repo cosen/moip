@@ -42,3 +42,8 @@
 .sk-cube-grid .sk-cube {
   background-color: white;
 }
+
+.btn.btn-primary {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}

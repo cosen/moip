@@ -53,25 +53,140 @@ angular.module('stillRefuge').controller("produtosCtrl", function($scope, $http,
 });
 
 angular.module('stillRefuge').controller("pedidosCtrl", function($scope, $http, $routeParams, produtosService, PUBLIC_KEY) {
-  $scope.produtos = produtosService.getProdutosSelecionados();
-  $scope.pagamento = {
-    installmentCount: "1"
+  var inicializa = function() {
+    $scope.produtos = produtosService.getProdutosSelecionados();
+
+    $scope.pagamento = {
+      installmentCount: "1"
+    };
+
+    console.log($scope.produtos);
+    if(!$scope.produtos || $scope.produtos.length === 0) {
+      location.href = "/";
+    }    
   };
 
-  // TESTE - INICIO
-  $scope.pagamento.cartao = {};
-  $scope.pagamento.cartao.number = 5491670208076682;
-  $scope.pagamento.cartao.cvc = 900;
-  $scope.pagamento.cartao.month = "03";
-  $scope.pagamento.cartao.year = "2024";
-  
-  $scope.pagamento.cartao.holder = {};
-  $scope.pagamento.cartao.holder.fullname = "Rafael Antonio Cosentino";
-  $scope.pagamento.cartao.holder.birthdate = "1984-10-30";
+  inicializa();
 
-  $scope.pagamento.cartao.holder.taxDocument = {};
-  $scope.pagamento.cartao.holder.taxDocument.number = "32000035884";
-  // TESTE - FIM
+  $scope.mastercard = function() {
+    $scope.pagamento.cartao = {
+      number: "5555666677778884",
+      cvc: "123",
+      month: "05",
+      year: "2018",
+      holder: {
+        fullname: "José da Silva",
+        birthdate: "1999-12-25",
+        taxDocument: {
+          number: "11111111111"
+        }
+      }
+    };
+  };
+
+  $scope.visa = function() {
+    $scope.pagamento.cartao = {
+      number: "4012001037141112",
+      cvc: "123",
+      month: "05",
+      year: "2018",
+      holder: {
+        fullname: "José da Silva",
+        birthdate: "1999-12-25",
+        taxDocument: {
+          number: "11111111111"
+        }
+      }
+    };
+  };
+
+  $scope.amex = function() {
+    $scope.pagamento.cartao = {
+      number: "376449047333005",
+      cvc: "1234",
+      month: "05",
+      year: "2018",
+      holder: {
+        fullname: "José da Silva",
+        birthdate: "1999-12-25",
+        taxDocument: {
+          number: "11111111111"
+        }
+      }
+    };
+  };
+
+  $scope.elo = function() {
+    $scope.pagamento.cartao = {
+      number: "6362970000457013",
+      cvc: "123",
+      month: "05",
+      year: "2018",
+      holder: {
+        fullname: "José da Silva",
+        birthdate: "1999-12-25",
+        taxDocument: {
+          number: "11111111111"
+        }
+      }
+    };
+  };
+
+  $scope.dinners = function() {
+    $scope.pagamento.cartao = {
+      number: "36490102462661",
+      cvc: "123",
+      month: "05",
+      year: "2018",
+      holder: {
+        fullname: "José da Silva",
+        birthdate: "1999-12-25",
+        taxDocument: {
+          number: "11111111111"
+        }
+      }
+    };
+  };
+
+  $scope.hiper = function() {
+    $scope.pagamento.cartao = {
+      number: "6370950000000005",
+      cvc: "123",
+      month: "05",
+      year: "2018",
+      holder: {
+        fullname: "José da Silva",
+        birthdate: "1999-12-25",
+        taxDocument: {
+          number: "11111111111"
+        }
+      }
+    };
+  };
+
+  $scope.hipercard = function() {
+    $scope.pagamento.cartao = {
+      number: "6062825624254001",
+      cvc: "123",
+      month: "05",
+      year: "2018",
+      holder: {
+        fullname: "José da Silva",
+        birthdate: "1999-12-25",
+        taxDocument: {
+          number: "11111111111"
+        }
+      }
+    };
+  };
+
+  $scope.authorized = function() {
+    $scope.pagamento.cartao.holder.fullname = "AUTHORIZED";
+  };
+
+  $scope.cancelled = function() {
+    $scope.pagamento.cartao.holder.fullname = "REJECT";
+  };
 
   $scope.total = function(produtos, pagamento) {
     var fator = 1;

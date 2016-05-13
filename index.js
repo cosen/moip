@@ -4,12 +4,8 @@ var app        = express();
 
 var WebSocketServer = require("ws").Server;
 
-var util = require('util');
-
 var produtos = require('./src/api/produtos.js');
 var checkout = require('./src/api/checkout.js');
-
-var wss = [];
 
 // express e body-parser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -42,14 +38,7 @@ app.post('/checkout', function(req, res) {
 });
 
 app.post('/payments', function(req, res) {
-  var pagamentoId = req.body.resource.payment.id;
-
-  if(req.body.event == "PAYMENT.AUTHORIZED") {
-    wss[pagamentoId].send("true", function() {});
-  } else if(req.body.event == "PAYMENT.CANCELLED") {
-    wss[pagamentoId].send("false", function() {});
-  }
-
+  checkout.notificationMoip(req.body);
   res.send("");
 });
 
@@ -65,18 +54,6 @@ var wss = new WebSocketServer({server: server});
 console.log("Websocket server created");
 
 wss.on("connection", function(ws) {
-  var pagamentoId = ws.upgradeReq.url.split('=')[1];
-
-  console.log("websocket connection open: " + pagamentoId);
-  
-  wss[pagamentoId] = ws;
-
-  var ping = setInterval(function() {
-    ws.send("ping", function() {  });
-  }, 2000);
-
-  ws.on("close", function() {
-    console.log("websocket connection close");
-    clearInterval(ping);
-  });
+  checkout.addWebsocket(ws);
 });
+

@@ -12,7 +12,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('jshint', function() {
-  return gulp.src('src/js/*.js')
+  return gulp.src(['src/js/*.js', 'index.js'])
   .pipe(jshint())
   .pipe(jshint.reporter('default'));
 });

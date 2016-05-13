@@ -42,13 +42,16 @@ app.post('/checkout', function(req, res) {
 });
 
 app.post('/payments', function(req, res) {
-  console.log(util.inspect(req.body, {showHidden: false, depth: null}));
   var pagamentoId = req.body.resource.payment.id;
 
   if(req.body.event == "PAYMENT.AUTHORIZED") {
+    console.log('Evento: PAYMENT.AUTHORIZED');
+    console.log(wss[pagamentoId]);
     wss[pagamentoId].send(true, function() {});
   } else if(req.body.event == "PAYMENT.CANCELLED") {
-    wss[pagamentoId].send(true, function() {});
+    console.log('Evento: PAYMENT.CANCELLED');
+    console.log(wss[pagamentoId]);
+    wss[pagamentoId].send(false, function() {});
   }
 
   res.send("");
@@ -71,6 +74,7 @@ wss.on("connection", function(ws) {
   console.log("websocket connection open: " + pagamentoId);
   
   wss[pagamentoId] = ws;
+  console.log(wss[pagamentoId]);
 
   ws.on("close", function() {
     console.log("websocket connection close");

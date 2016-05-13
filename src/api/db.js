@@ -34,7 +34,6 @@ module.exports.executeQuery = function(query, callback) {
 
 module.exports.ping = function(callback) {
   logger.debug("Executando um Ping:");
-  logger.debug(query);
   pool.getConnection(function(err, connection) {
     if(err) {
       logger.debug("Conexão com Erros: ");

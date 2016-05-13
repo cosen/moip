@@ -113,7 +113,7 @@ module.exports.addCheckout = function(checkout, callback) {
           console.log("O moip_id do pedido foi inserido no BD");
 
           console.log("Criando pagamento no Moip");
-          console.log(checkout.payment);
+          console.log(checkout.payment.fundingInstrument.creditCard);
           moip.createPayment(checkout.payment, pedidoMoipId, function(error, pagamentoId) {
             if(error) {
               callback(error);

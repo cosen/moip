@@ -74,6 +74,7 @@ module.exports.createPayment = function(payment, pedidoMoipId, callback) {
     callback(error);
   });
 
+  console.log(JSON.stringify(payment));
   request.write(JSON.stringify(payment));
 
   request.end();

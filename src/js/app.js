@@ -184,7 +184,7 @@ angular.module('stillRefuge').controller("pedidosCtrl", function($scope, $http, 
   };
 
   $scope.cancelled = function() {
-    $scope.pagamento.cartao.holder.fullname = "REJECT";
+    $scope.pagamento.cartao.holder.fullname = "CANCEL";
   };
 
   $scope.total = function(produtos, pagamento) {

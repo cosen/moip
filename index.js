@@ -4,22 +4,31 @@ var app        = express();
 
 var WebSocketServer = require("ws").Server;
 
+var logger = require('./src/api/logger.js')(module);
+
 var produtos = require('./src/api/produtos.js');
 var checkout = require('./src/api/checkout.js');
 
-// express e body-parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+logger.debug("Express e BodyParser Integrados");
 
 app.set('port', (process.env.PORT || 5000));
+logger.debug("Porta da Aplicação é: " + app.get('port'));
+
 app.use(express.static(__dirname + '/public'));
 
 app.get('/produtos', function(req, res) {
   produtos.findAll(function(error, results) {
     if(error) {
-      console.log(error);
+      logger.error("Houve um Erro:");
+      logger.error(error);
+
       res.status(500).send('Algo errado!');
     } else {
+      logger.debug("Devolvendo os Produtos: ");
+      logger.debug(results);
+
       res.json(results);
     }
   });
@@ -27,12 +36,15 @@ app.get('/produtos', function(req, res) {
 
 app.post('/checkout', function(req, res) {
   var novoCheckout = req.body;
-  console.log(    novoCheckout.payment.fundingInstrument.creditCard.holder.fullname);
   checkout.addCheckout(novoCheckout, function(error, pagamentoId) {
     if(error) {
-      console.log(error);
+      logger.error("Houve um Erro:");
+      logger.error(error);
+
       res.status(500).send('Algo errado!');
     } else {
+      logger.debug("Devolvendo o Id do Pagamento: " + pagamentoId);
+
       res.json({pagamentoId: pagamentoId});
     }
   });
@@ -44,17 +56,16 @@ app.post('/payments', function(req, res) {
 });
 
 process.on('uncaughtException', function (err) {
-  console.log(err);
+  logger.error(err);
 });
 
 var server = app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
+  logger.info('Aplicação Executando na Porta: ' + app.get('port'));
 });
 
 var wss = new WebSocketServer({server: server});
-console.log("Websocket server created");
+logger.info("Websocket Server Criado");
 
 wss.on("connection", function(ws) {
   checkout.addWebsocket(ws);
 });
-

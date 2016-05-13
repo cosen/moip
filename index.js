@@ -27,6 +27,7 @@ app.get('/produtos', function(req, res) {
 
 app.post('/checkout', function(req, res) {
   var novoCheckout = req.body;
+  console.log(    novoCheckout.payment.fundingInstrument.creditCard.holder.fullname);
   checkout.addCheckout(novoCheckout, function(error, pagamentoId) {
     if(error) {
       console.log(error);

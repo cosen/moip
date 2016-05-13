@@ -60,7 +60,6 @@ angular.module('stillRefuge').controller("pedidosCtrl", function($scope, $http, 
       installmentCount: "1"
     };
 
-    console.log($scope.produtos);
     if(!$scope.produtos || $scope.produtos.length === 0) {
       location.href = "/";
     }    
@@ -272,7 +271,6 @@ angular.module('stillRefuge').controller("pedidosCtrl", function($scope, $http, 
           return;
         }        
         
-        loadingScreen.finish();
         ws.close();
 
         if(event.data == "true") {
@@ -281,6 +279,7 @@ angular.module('stillRefuge').controller("pedidosCtrl", function($scope, $http, 
           alert("Pagamento não Autorizado");
         }
         
+        loadingScreen.finish();
         location.href = "/";    
       };
     });

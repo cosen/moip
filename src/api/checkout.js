@@ -161,7 +161,7 @@ module.exports.addWebsocket = function(ws) {
   });
 };
 
-module.exports.addWebsocket = function(notification) {
+module.exports.notificationMoip = function(notification) {
   var pagamentoId = notification.resource.payment.id;
 
   if(req.body.event == "PAYMENT.AUTHORIZED") {

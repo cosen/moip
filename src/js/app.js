@@ -152,7 +152,7 @@ angular.module('stillRefuge').controller("pedidosCtrl", function($scope, $http, 
       console.log(host + "?pagamentoId=" + data.pagamentoId);
 
       ws.onmessage = function (event) {
-        if(event.data != "true" || event.data != "false") {
+        if(event.data != "true" && event.data != "false") {
           console.log(event.data);
           return;
         }        

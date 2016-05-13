@@ -46,9 +46,9 @@ app.post('/payments', function(req, res) {
   var pagamentoId = req.body.resource.payment.id;
 
   if(req.body.event == "PAYMENT.AUTHORIZED") {
-    wss[pagamentoId].send(true, function() )
+    wss[pagamentoId].send(true, function() {});
   } else if(req.body.event == "PAYMENT.CANCELLED") {
-    wss[pagamentoId].send(true, function() )
+    wss[pagamentoId].send(true, function() {});
   }
 
   res.send("");

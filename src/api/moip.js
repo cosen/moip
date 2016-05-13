@@ -50,7 +50,7 @@ module.exports.createPayment = function(payment, pedidoMoipId, callback) {
     headers: headers    
   };
 
-  var request = https.request(options, function(response) {
+/*  var request = https.request(options, function(response) {
     var data = "";
 
     response.on('data', function(chunk) {
@@ -73,9 +73,10 @@ module.exports.createPayment = function(payment, pedidoMoipId, callback) {
   request.on('error', function(error) {
     callback(error);
   });
-
+*/
+  console.log(pedidoMoipId);
   console.log(JSON.stringify(payment));
-  request.write(JSON.stringify(payment));
+  //request.write(JSON.stringify(payment));
 
-  request.end();
+  //request.end();
 };

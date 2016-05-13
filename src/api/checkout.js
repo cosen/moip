@@ -164,9 +164,9 @@ module.exports.addWebsocket = function(ws) {
 module.exports.notificationMoip = function(notification) {
   var pagamentoId = notification.resource.payment.id;
 
-  if(req.body.event == "PAYMENT.AUTHORIZED") {
+  if(notification.event == "PAYMENT.AUTHORIZED") {
     wss[pagamentoId].send("true", function() {});
-  } else if(req.body.event == "PAYMENT.CANCELLED") {
+  } else if(notification.event == "PAYMENT.CANCELLED") {
     wss[pagamentoId].send("false", function() {});
   }
 };

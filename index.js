@@ -2,7 +2,7 @@ var express    = require('express');
 var bodyParser = require('body-parser');
 var app        = express();
 
-var WebSocketServer = require("ws").Server
+var WebSocketServer = require("ws").Server;
 
 var util = require('util');
 
@@ -45,13 +45,9 @@ app.post('/payments', function(req, res) {
   var pagamentoId = req.body.resource.payment.id;
 
   if(req.body.event == "PAYMENT.AUTHORIZED") {
-    console.log('Evento: PAYMENT.AUTHORIZED');
-    console.log(wss[pagamentoId]);
-    wss[pagamentoId].send(true, function() {});
+    wss[pagamentoId].send("true", function() {});
   } else if(req.body.event == "PAYMENT.CANCELLED") {
-    console.log('Evento: PAYMENT.CANCELLED');
-    console.log(wss[pagamentoId]);
-    wss[pagamentoId].send(false, function() {});
+    wss[pagamentoId].send("false", function() {});
   }
 
   res.send("");
@@ -59,14 +55,14 @@ app.post('/payments', function(req, res) {
 
 process.on('uncaughtException', function (err) {
   console.log(err);
-})
+});
 
 var server = app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
 
 var wss = new WebSocketServer({server: server});
-console.log("Websocket server created")
+console.log("Websocket server created");
 
 wss.on("connection", function(ws) {
   var pagamentoId = ws.upgradeReq.url.split('=')[1];
@@ -78,6 +74,5 @@ wss.on("connection", function(ws) {
 
   ws.on("close", function() {
     console.log("websocket connection close");
-  })
+  });
 });
-

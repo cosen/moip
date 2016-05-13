@@ -146,6 +146,7 @@ angular.module('stillRefuge').controller("pedidosCtrl", function($scope, $http, 
       console.log(host + "?pagamentoId=" + data.pagamentoId);
 
       ws.onmessage = function (event) {
+        console.log("Recebendo: ");
         console.log(event.data);
       };
     });

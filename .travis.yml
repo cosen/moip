@@ -10,9 +10,10 @@ env:
     - DB_MYSQL_NO_PASSWORD=true
 
 before_install:
-  - mysql < db.sql -u root
+
 
 before_script:
+  - mysql < db.sql -u root
   - bower install
   - gulp
 

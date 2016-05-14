@@ -204,7 +204,10 @@ module.exports.notificationMoip = function(notification) {
 };
 
 var enviaNotificacao = function(notification) {
+  var pagamentoId = notification.resource.payment.id;
+
   logger.info("Enviando a Notificação pelo Websocket");      
+  logger.info("Evento: " + notification.event);
 
   if(notification.event == "PAYMENT.AUTHORIZED") {
     wss[pagamentoId].send("true", function() {});

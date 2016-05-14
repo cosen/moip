@@ -5,6 +5,9 @@ var logger = require('./logger.js')(module);
 var wss = [];
 logger.debug("Array dos Websockets Criado");
 
+var notifications = [];
+logger.debug("Array das Notifications");
+
 // UTILIZAREI MOEDA E FRETE FIXOS
 var amount = {
   currency: "BRL",
@@ -163,17 +166,25 @@ module.exports.addWebsocket = function(ws) {
   var pagamentoId = ws.upgradeReq.url.split('=')[1];
 
   logger.info("Websocket Aberto. Pagamento: " + pagamentoId);
-  
-  wss[pagamentoId] = ws;
 
-  var ping = setInterval(function() {
-    ws.send("ping", function() {  });
-  }, 2000);
+  wss[pagamentoId] = ws;
 
   ws.on("close", function() {
     logger.info("Websocket Fechado. Pagamento: " + pagamentoId);
     clearInterval(ping);
   });
+
+  if(notifications[pagamentoId]) {
+    logger.info("Já Havia uma Notificação Armazenada");
+
+    enviaNotificacao(notifications[pagamentoId]);
+
+    delete notifications[pagamentoId];
+  }
+
+  var ping = setInterval(function() {
+    ws.send("ping", function() {  });
+  }, 2000);
 };
 
 module.exports.notificationMoip = function(notification) {
@@ -182,21 +193,24 @@ module.exports.notificationMoip = function(notification) {
   logger.info("Recebendo Notificação da Moip. Pagamento: " + pagamentoId);
   logger.info("Evento: " + notification.event);
 
-  if(notification.event == "PAYMENT.AUTHORIZED") {
-    if(wss[pagamentoId]) {
-      logger.info("Enviando a Notificação pelo Websocket");      
-      
-      wss[pagamentoId].send("true", function() {});
-    } else {
-      logger.error("Websocket não Existe");
-    }
-  } else if(notification.event == "PAYMENT.CANCELLED") {
-    if(wss[pagamentoId]) {
-      logger.info("Enviando a Notificação pelo Websocket");
+  if(!wss[pagamentoId]) {
+    logger.info("Websocket não está Aberto. Guardando a notificação"); 
 
-      wss[pagamentoId].send("false", function() {});
-    } else {
-      logger.error("Websocket não Existe");
-    }
+    notifications[pagamentoId] = notification;
+    return;
   }
+
+  enviaNotificacao(notification);
+};
+
+var enviaNotificacao = function(notification) {
+  logger.info("Enviando a Notificação pelo Websocket");      
+
+  if(notification.event == "PAYMENT.AUTHORIZED") {
+    wss[pagamentoId].send("true", function() {});
+  } else if(notification.event == "PAYMENT.CANCELLED") {
+    wss[pagamentoId].send("false", function() {});
+  }
+
+  delete wss[pagamentoId];
 };

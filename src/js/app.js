@@ -241,6 +241,8 @@ angular.module('stillRefuge').controller("pedidosCtrl", function($scope, $http, 
       });
     }
 
+    console.log(cc.hash());
+
     novoCheckout.payment = {
       installmentCount: pagamento.installmentCount,
       fundingInstrument: {

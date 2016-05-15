@@ -67,24 +67,8 @@ module.exports.addCheckout = function(checkout, callback) {
     var pedidoId = results.insertId;
     checkout.order.ownId = pedidoId;
  
-    logger.info("Calculando o Fator do Pedido");
+    var fator = calculaFator(checkout.payment);
 
-    var fator = 1;
-    if(checkout.payment.installmentCount > 1) {
-      logger.info("Pagamento em 2 ou mais Vezes");
-      logger.info("Acrescentando 2.5% ao Fator do Pedido");
-  
-      fator += 0.025;
-    }
-
-    if(checkout.payment.cupom && checkout.payment.cupom.startsWith("A")) {
-      logger.info("Pagamento Utilizando Cupom Válido");
-      logger.info("Diminuindo 5% do Fator do Pedido");
-
-      fator -= 0.05;
-    } 
-
-    logger.info("O Fator calculado foi: " + fator);
     logger.info("Inserindo os Itens do Pedido no BD: " + [values]);
 
     var values = [];
@@ -216,4 +200,28 @@ var enviaNotificacao = function(notification) {
   }
 
   delete wss[pagamentoId];
+};
+
+var calculaFator = function(payment) {
+  logger.info("Calculando o Fator do Pedido");
+
+  var fator = 1;
+  if(payment.cupom && payment.cupom.startsWith("A")) {
+    logger.info("Pagamento Utilizando Cupom Válido");
+    logger.info("Diminuindo 5% do Fator do Pedido");
+
+    fator = 0.95;
+  }
+
+  if(payment.installmentCount > 1) {
+    logger.info("Pagamento em 2 ou mais Vezes");
+    logger.info("Acrescentando 2.5% ao Fator do Pedido");
+  
+    fator += 0.025;
+  }
+
+
+  logger.info("O Fator calculado foi: " + fator);
+  
+  return fator;
 };

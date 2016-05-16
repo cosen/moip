@@ -8,7 +8,7 @@ var config = {
   password: (process.env.DB_MYSQL_NO_PASSWORD ? '' : (process.env.DB_MYSQL_PASSWORD || 'root')),
   database: 'j2w1xpr3s01xy8ob',
   debug: false
-}
+};
 
 var pool = mysql.createPool(config);
 
@@ -30,7 +30,7 @@ module.exports.executeQuery = function(query, callback) {
       callback(err, results);
     }
   });
-}
+};
 
 module.exports.ping = function(callback) {
   logger.debug("Executando um Ping:");
@@ -59,4 +59,4 @@ module.exports.ping = function(callback) {
       });
     }
   });
-}
+};

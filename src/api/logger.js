@@ -14,5 +14,5 @@ module.exports = function (module) {
     error: function(data) {
       winston.error(filename + ': ' + JSON.stringify(data)); 
     } 
-  }
+  };
 };
